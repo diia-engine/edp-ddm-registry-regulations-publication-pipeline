@@ -52,7 +52,8 @@ class Keycloak {
                         contentType: 'APPLICATION_FORM',
                         requestBody: "grant_type=client_credentials&client_id=${kc.clientId}&client_secret=${kc.clientSecret}",
                         consoleLogResponseBody: false,
-                        validResponseCodes: "200"
+                        validResponseCodes: "200",
+                        quiet: true
                 requestStatus = true
                 token = new JsonSlurperClassic()
                         .parseText(response.content)

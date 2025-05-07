@@ -47,7 +47,7 @@ class GeoserverPublisher {
         context.logger.info("Publishing geoserver configuration")
         context.script.sh(script: "cp ${context.registry.SETTINGS_FILE} /home/jenkins/geoserver-publisher")
         try {
-            context.script.sh(script: "java -jar " +
+            context.script.sh(script: "set +x; java -jar " +
                     "-DSTORE_DB_PASSWORD=${context.postgres.geoServerPublisherPass} " +
                     "-DSTORE_DB_USER=${context.postgres.geoServerPublisherUser} " +
                     "-DDB_SCHEMA=registry " +

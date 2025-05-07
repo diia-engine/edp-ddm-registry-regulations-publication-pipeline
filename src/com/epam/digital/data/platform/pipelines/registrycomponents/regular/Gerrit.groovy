@@ -29,7 +29,7 @@ class Gerrit extends GitServer {
     boolean isRepositoryExists(String repoName) {
         context.logger.debug("Checking if ${repoName} exists")
         context.script.sshagent(["${credentialsId}"]) {
-            ArrayList<String> gerritRepositories = context.script.sh(script: "ssh -oStrictHostKeyChecking=no -p ${sshPort} ${autouser}@${host} " +
+            ArrayList<String> gerritRepositories = context.script.sh(script: "set +x; ssh -oStrictHostKeyChecking=no -p ${sshPort} ${autouser}@${host} " +
                     "gerrit ls-projects", returnStdout: true).tokenize('\n')
             boolean isExists = gerritRepositories.find { it == repoName } ? true : false
             context.logger.debug("Exists: ${isExists}")
@@ -50,7 +50,7 @@ class Gerrit extends GitServer {
     void deleteRepoCli(String repoName) {
         context.script.sshagent(["${credentialsId}"]) {
             if (isRepositoryExists(repoName)) {
-                context.script.sh(script: "ssh -oStrictHostKeyChecking=no " +
+                context.script.sh(script: "set +x; ssh -oStrictHostKeyChecking=no " +
                         "-p ${sshPort} ${autouser}@${host} " +
                         "delete-project delete --yes-really-delete --force ${repoName}")
             }

@@ -63,9 +63,8 @@ class Redash {
                 httpMode: "GET",
                 customHeaders: [[name: "authorization", value: apiKey, maskValue: true]],
                 consoleLogResponseBody: context.logLevel == "DEBUG",
-                quiet: context.logLevel != "DEBUG",
+                quiet: true,
                 validResponseCodes: "200,403,404"
-        context.logger.debug("Redash ${redashElement} response: ${response.content}")
 
         if (response.getStatus() == 404) {
             context.logger.info("Redash ${redashElement} api key is no more valid or not yet initialised")
@@ -100,7 +99,7 @@ class Redash {
                 contentType: "APPLICATION_FORM",
                 requestBody: "email=${systemAdminEmail}&password=${password}",
                 consoleLogResponseBody: context.logLevel == "DEBUG",
-                quiet: context.logLevel != "DEBUG",
+                quiet: true,
                 validResponseCodes: "302"
         ArrayList cookies = loginResponse.getHeaders()
                 .get("Set-Cookie")
@@ -118,7 +117,7 @@ class Redash {
                 httpMode: "POST",
                 customHeaders: [[name: "Cookie", value: cookie, maskValue: true]],
                 consoleLogResponseBody: context.logLevel == "DEBUG",
-                quiet: context.logLevel != "DEBUG",
+                quiet: true,
                 validResponseCodes: "200"
 
         return new JsonSlurperClassic()
@@ -171,7 +170,7 @@ class Redash {
                             httpMode: "DELETE",
                             customHeaders: [[name: "authorization", value: apiKey, maskValue: true]],
                             consoleLogResponseBody: context.logLevel == "DEBUG",
-                            quiet: context.logLevel != "DEBUG",
+                            quiet: true,
                             validResponseCodes: "200,204"
                 }
             }
@@ -183,7 +182,7 @@ class Redash {
                 httpMode: "GET",
                 customHeaders: [[name: "authorization", value: apiKey, maskValue: true]],
                 consoleLogResponseBody: context.logLevel == "DEBUG",
-                quiet: context.logLevel != "DEBUG",
+                quiet: true,
                 validResponseCodes: "200"
         return response.content
     }
@@ -195,7 +194,7 @@ class Redash {
                     httpMode: "DELETE",
                     customHeaders: [[name: "authorization", value: apiKey, maskValue: true]],
                     consoleLogResponseBody: context.logLevel == "DEBUG",
-                    quiet: context.logLevel != "DEBUG",
+                    quiet: true,
                     validResponseCodes: "200,204"
         }
     }

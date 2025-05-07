@@ -40,7 +40,7 @@ class BuildDockerfileImage {
                 authentication: 'nexus-ci.user',
                 httpMode: 'GET',
                 consoleLogResponseBody: context.logLevel == "DEBUG",
-                quiet: context.logLevel != "DEBUG",
+                quiet: true,
                 validResponseCodes: "200,404"
 
         if ((response.getStatus() == 404) || (response.getStatus() == 200)) {
@@ -81,7 +81,7 @@ class BuildDockerfileImage {
 
     void createBuildConfig() {
         context.logger.info("Creating build config ${context.codebase.buildConfigName}")
-        context.script.sh(script: "oc new-build --name ${context.codebase.buildConfigName} " +
+        context.script.sh(script: "set +x; oc new-build --name ${context.codebase.buildConfigName} " +
                 "--binary=true " +
                 "--to-docker=true " +
                 "--to=${context.codebase.imageUrl} " +

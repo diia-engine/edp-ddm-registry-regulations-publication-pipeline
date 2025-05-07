@@ -56,7 +56,7 @@ class RegistryRegulationsValidation {
         }
 
         try {
-            context.script.sh(script: "java -jar -DOPENSHIFT_NAMESPACE=${context.namespace} ${LOWCODE_VALIDATOR_JAR} ${validatorParams} " +
+            context.script.sh(script: "set +x; java -jar -DOPENSHIFT_NAMESPACE=${context.namespace} ${LOWCODE_VALIDATOR_JAR} ${validatorParams} " +
                     "${context.logLevel == "DEBUG" ? "1>&2" : ""}")
         }
         catch (any) {

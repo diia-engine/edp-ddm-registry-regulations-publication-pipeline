@@ -50,7 +50,8 @@ class ImportMockIntegrations {
                                 httpMode: 'POST',
                                 requestBody: formJsonContent,
                                 validResponseCodes: '200,422',
-                                url: wiremockUrlMappings + "/import"
+                                url: wiremockUrlMappings + "/import",
+                                quiet: true,
                         )
                         if (response.status.equals(422)) {
                             String msgResponse = new JsonSlurperClassic().parseText(response.getContent())

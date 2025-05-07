@@ -36,9 +36,8 @@ class RestoreRedashAdminState {
                         contentType: "APPLICATION_JSON",
                         customHeaders: [[name: "Authorization", value: context.redash.adminApiKey, maskValue: true]],
                         consoleLogResponseBody: context.logLevel == "DEBUG",
-                        quiet: context.logLevel != "DEBUG",
+                        quiet: true,
                         validResponseCodes: "200"
-                context.logger.debug("Redash admin response: ${response.content}")
                 if (response.content == "[]") {
                     try {
                         context.logger.info("Redash-admin is empty. Start restoring...")

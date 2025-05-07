@@ -48,7 +48,7 @@ class Helm {
         if (template)
             parametersString += "-s ${template} "
 
-        context.script.sh(script: "helm template ${releaseName} ${deployTemplatesPath} " +
+        context.script.sh(script: "set +x; helm template ${releaseName} ${deployTemplatesPath} " +
                 "--namespace ${namespace} ${parametersString}", returnStdout: true)
     }
 

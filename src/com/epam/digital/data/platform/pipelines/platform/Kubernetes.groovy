@@ -56,7 +56,7 @@ class Kubernetes implements IPlatform {
     String podExec(String podName, String command, String container = "") {
         if (container)
             podName += " -c ${container}"
-        context.script.sh(script: "${CLI} exec ${podName} -- ${command}", returnStdout: true)
+        context.script.sh(script: "set +x; ${CLI} exec ${podName} -- ${command}", returnStdout: true)
     }
 
     @Override
@@ -79,7 +79,7 @@ class Kubernetes implements IPlatform {
 
     @Override
     boolean patch(String resource, String name, String jsonpath) {
-        String result = context.script.sh(script: "${CLI} patch ${resource} ${name} --type merge -p ${jsonpath}",
+        String result = context.script.sh(script: "set +x; ${CLI} patch ${resource} ${name} --type merge -p ${jsonpath}",
                 returnStdout: true)
         return !result.contains("not patched")
     }
@@ -95,7 +95,7 @@ class Kubernetes implements IPlatform {
 
     @Override
     void create(String resource, String name, String parameters = "") {
-        context.script.sh(script: "${CLI} create ${resource} ${name} ${parameters}")
+        context.script.sh(script: "set +x; ${CLI} create ${resource} ${name} ${parameters}")
     }
 
     @Override

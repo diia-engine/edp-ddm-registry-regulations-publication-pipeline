@@ -43,7 +43,7 @@ class PublishNotificationTemplates {
     private void publishNotificationTemplates() {
         context.logger.info("Publishing of notification templates")
         try {
-            context.script.sh(script: "java -jar " +
+            context.script.sh(script: "set +x; java -jar " +
                     "${NOTIFICATION_TEMPLATES_PUBLISHER_JAR} " +
                     "--notification-service.url=${NotificationService.URL} " +
                     "--thirdPartySystems.accessToken=${context.keycloak.getAccessToken(context.jenkinsDeployer)} " +

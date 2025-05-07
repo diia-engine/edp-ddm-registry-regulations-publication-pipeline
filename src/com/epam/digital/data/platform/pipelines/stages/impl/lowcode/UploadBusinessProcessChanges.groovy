@@ -62,12 +62,13 @@ class UploadBusinessProcessChanges {
                     wrapAsMultipart: true,
                     multipartName: file,
                     consoleLogResponseBody: context.logLevel == "DEBUG",
-                    quiet: context.logLevel != "DEBUG",
+                    quiet: true,
                     customHeaders: [[maskValue: true, name: 'X-Access-Token', value: token]],
                     validResponseCodes: "200"
             context.logger.info("${file} have been succussfully deployed")
         } catch (any) {
-            context.logger.error("Failed to deploy ${file}")
+            context.script.unstable("Failed to deploy ${file}")
+            context.script.currentBuild.setResult('UNSTABLE')
         }
     }
 }

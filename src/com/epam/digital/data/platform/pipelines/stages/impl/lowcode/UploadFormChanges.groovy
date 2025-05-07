@@ -57,7 +57,7 @@ class UploadFormChanges {
                     httpMode: 'GET',
                     customHeaders: [[maskValue: true, name: 'X-Access-Token', value: token]],
                     consoleLogResponseBody: context.logLevel == "DEBUG",
-                    quiet: context.logLevel != "DEBUG",
+                    quiet: true,
                     validResponseCodes: "200,404"
             if (response.getStatus() == 200) {
                 context.logger.debug("Form ${formName} exists. Required action is update")
@@ -81,7 +81,7 @@ class UploadFormChanges {
                                     [maskValue: true, name: 'X-Access-Token', value: token]],
                     wrapAsMultipart: false,
                     consoleLogResponseBody: context.logLevel == "DEBUG",
-                    quiet: context.logLevel != "DEBUG",
+                    quiet: true,
                     validResponseCodes: "201"
             context.logger.info("Form ${formFile} successfully created")
         } catch (any) {
@@ -99,7 +99,7 @@ class UploadFormChanges {
                                     [maskValue: true, name: 'X-Access-Token', value: token]],
                     wrapAsMultipart: false,
                     consoleLogResponseBody: context.logLevel == "DEBUG",
-                    quiet: context.logLevel != "DEBUG",
+                    quiet: true,
                     validResponseCodes: "200"
             context.logger.info("Form ${formFile} successfully updated")
         } catch (any) {

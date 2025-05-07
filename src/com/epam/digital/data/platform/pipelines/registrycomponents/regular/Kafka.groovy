@@ -43,8 +43,9 @@ class Kafka {
 
     private String getKafkaTopics() {
         String kafkaTopicsTmp = ''
+        def regex = ~/.*\d+\.\d+-(inbound|outbound).*/
         kafkaTopicList.each { kafkaTopic ->
-            if ((kafkaTopic.contains("inbound") || kafkaTopic.contains("outbound"))) {
+            if (kafkaTopic ==~ regex) {
                 kafkaTopicsTmp = kafkaTopicsTmp + "$kafkaTopic,"
             }
         }
@@ -52,29 +53,16 @@ class Kafka {
     }
 
     void removeKafkaTopics() {
-        int attempt = 0
-        int maxAttempts = 12
-        Boolean kafkaTopicsRemoved = false
-        while (!kafkaTopicsRemoved) {
-            init()
-            attempt++
-            if (attempt > maxAttempts) {
-                context.script.error("Attempts limit is reached and kafka topics were not removed yet!")
-                kafkaTopicsRemoved = true
-            }
-            if (kafkaTopics.length() > 1) {
-                try {
-                    context.script.sh(script: "oc exec $KAFKA_BROKER_POD -c kafka -- bin/kafka-topics.sh " +
-                            "--bootstrap-server $KAFKA_BOOTSTRAP_SERVER --delete --topic ${kafkaTopics.substring(0, kafkaTopics.length() - 1)}")
-                } catch (any) {
-                    kafkaTopicsRemoved = false
-                    context.logger.info("Removing of kafka topics failed. Retrying (attempt $attempt/12)")
-                }
-            } else {
-                kafkaTopicsRemoved = true
-                context.logger.info("Kafka topics were successfully removed.")
-            }
 
+
+        init()
+        if (kafkaTopics.length() > 1) {
+            context.script.sh(script: "oc exec $KAFKA_BROKER_POD -c kafka -- bin/kafka-topics.sh " +
+                    "--bootstrap-server $KAFKA_BOOTSTRAP_SERVER --delete --topic ${kafkaTopics.substring(0, kafkaTopics.length() - 1)} &")
+
+        } else {
+            context.logger.info("No topics to delete")
         }
+
     }
 }

@@ -40,7 +40,7 @@ class CreateSchemaVersionCandidate {
         String operationalMasterRegistryDBUrl = "jdbc:postgresql://${context.postgres.OPERATIONAL_MASTER_URL}:" +
                 "${context.postgres.OPERATIONAL_MASTER_PORT}/registry_dev_${context.script.env.GERRIT_CHANGE_NUMBER}"
 
-        boolean doesVersionCandidateHasChangesInDataLoad = context.script.sh(script: "if [[ -n \$(git diff HEAD HEAD~1 --stat | grep data-model) ]]; then echo true; else echo false; fi", returnStdout: true).trim().toBoolean()
+        boolean doesVersionCandidateHasChangesInDataLoad = context.script.sh(script: "if [[ -n \$(git diff HEAD HEAD~1 --numstat -- data-model) ]]; then echo true; else echo false; fi", returnStdout: true).trim().toBoolean()
         LinkedHashMap settingsYaml = context.script.readYaml file: context.registry.SETTINGS_FILE
         String registryVersionFromVersionCandidate = settingsYaml["settings"]["general"]["version"]
 

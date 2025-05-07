@@ -33,7 +33,8 @@ class GetHistoryReport {
                 httpMode: 'GET',
                 outputFile: REPORT_PATH,
                 customHeaders: [[name : 'X-Access-Token', maskValue: true,
-                                 value: context.keycloak.getAccessToken(context.historyExcerptor)]]
+                                 value: context.keycloak.getAccessToken(context.historyExcerptor)]],
+                quiet: true
         context.script.archiveArtifacts artifacts: REPORT_PATH
         context.platform.deleteObject("job", JOB_NAME)
     }
